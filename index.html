@@ -235,45 +235,29 @@
     <section class="contact" id="contact">
       <h2 class="heading">Contact <span>Me</span></h2>
 
-      <form action="https://api.staticforms.xyz/submit" method="post">
-        <div class="input-group">
-          <div class="input-box">
-            <input type="text" name="name" placeholder="Full Name" required />
-            <input type="email" name="email" placeholder="Email" />
-          </div>
-          <div class="input-box">
-            <input
-              type="text"
-              name="name"
-              placeholder="Phone Number"
-              required
-            />
-            <input type="text" name="subject" placeholder="Subject" required />
-          </div>
-        </div>
+      <form action="https://formsubmit.co/douglas.monquero@gmail.com" method="POST">
+  <div class="input-group">
+    <div class="input-box">
+      <input type="text" name="name" placeholder="Full Name" required />
+      <input type="email" name="email" placeholder="Email" required />
+    </div>
+    <div class="input-box">
+      <input type="text" name="phone" placeholder="Phone Number" required />
+      <input type="text" name="subject" placeholder="Subject" required />
+    </div>
+  </div>
 
-        <div class="input-group-2">
-          <textarea
-            name="message"
-            id=""
-            cols="30"
-            rows="10"
-            placeholder="Your Message"
-          ></textarea>
-          <input type="submit" value="Send Message" class="btn" required />
+  <div class="input-group-2">
+    <textarea name="message" cols="30" rows="10" placeholder="Your Message" required></textarea>
+    <input type="submit" value="Send Message" class="btn" />
 
-          <input
-            type="hidden"
-            name="accessKey"
-            value="617d2c03-0972-4912-930e-b915104aa6ed"
-          />
-          <input
-            type="hidden"
-            name="redirectTo"
-            value="src/form.php"
-          />
-        </div>
-      </form>
+    <!-- Campos ocultos -->
+    <input type="hidden" name="_captcha" value="false">
+    <input type="hidden" name="_next" value="https://www.monquero.dev.br/obrigado.html">
+    <input type="hidden" name="_subject" value="Nova mensagem do site!">
+  </div>
+</form>
+
     </section>
 
     <footer class="footer">
