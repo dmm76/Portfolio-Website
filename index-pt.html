@@ -26,7 +26,9 @@
       </nav>
 
       <div>
-        <label class="switch">
+        <!-- Alternar idioma -->
+        <label for="language-toggle" class="sr-only">Alternar idioma</label>
+        <label class="switch" style="margin-bottom: 1rem">
           <img src="src/usa.png" alt="Inglês" />
           <input
             type="checkbox"
@@ -36,7 +38,11 @@
           <span class="slider round"></span>
           <img src="src/brasil.png" alt="Português" />
         </label>
-        ><br />
+      </br>
+        <!-- Alternar tema -->
+        <label for="theme-toggle" class="sr-only"
+          >Alternar tema escuro/claro</label
+        >
         <label class="switch">
           <img class="theme" src="src/darkk.png" alt="Tema escuro" />
           <input
