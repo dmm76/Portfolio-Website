@@ -8,6 +8,17 @@
   font-family: "Poppins", sans-serif;
 }
 
+.home h1 {
+  font-size: 6rem;
+}
+.education h2,
+.services h2,
+.projects h2,
+.contact h2 {
+  font-size: 4rem;
+}
+
+
 :root {
   --bg-color: #080808;
   --second-bg-color: #121227;
