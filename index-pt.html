@@ -13,48 +13,38 @@
 
   <body>
     <header class="header">
-      <a href="#home" class="logo">Douglas <span>Monquero</span></a>
+    <a href="#home" class="logo">Douglas <span>Monquero</span></a>
 
-      <i class="bx bx-menu" id="menu-icon"></i>
+    <i class="bx bx-menu" id="menu-icon"></i>
 
-      <nav class="navbar">
-        <a href="#home" class="active">Início</a>
-        <a href="#education">Formação</a>
-        <a href="#services">Serviços</a>
-        <a href="#projects">Projetos</a>
-        <a href="#contact">Contato</a>
-      </nav>
+    <nav class="navbar">
+      <a href="#home" class="active">Início</a>
+      <a href="#education">Educação</a>
+      <a href="#services">Serviços</a>
+      <a href="#projects">Projetos</a>
+      <a href="#contact">Me Contate</a>
+    </nav>
 
-      <div>
-        <!-- Alternar idioma -->
-        <label for="language-toggle" class="sr-only">Alternar idioma</label>
-        <label class="switch" style="margin-bottom: 1rem">
-          <img src="src/usa.png" alt="Inglês" />
-          <input
-            type="checkbox"
-            id="language-toggle"
-            aria-label="Alternar idioma"
-          />
-          <span class="slider round"></span>
-          <img src="src/brasil.png" alt="Português" />
-        </label>
-      </br>
-        <!-- Alternar tema -->
-        <label for="theme-toggle" class="sr-only"
-          >Alternar tema escuro/claro</label
-        >
-        <label class="switch">
-          <img class="theme" src="src/darkk.png" alt="Tema escuro" />
-          <input
-            type="checkbox"
-            id="theme-toggle"
-            aria-label="Alternar tema escuro/claro"
-          />
-          <span class="slider round"></span>
-          <img class="theme" src="src/lightt.png" alt="Tema claro" />
-        </label>
-      </div>
-    </header>
+    <div>
+      <label for="language-toggle" class="sr-only">Alterar Idioma</label>
+      <label class="switch">
+        <img src="src/usa.png" alt="English" />
+        <input type="checkbox" id="language-toggle" aria-label="Switch language" />
+        <span class="slider round"></span>
+        <img src="src/brasil.png" alt="Portuguese" />
+      </label>
+
+      <br />
+
+      <label for="theme-toggle" class="sr-only">Alterar Tema (dark/light)</label>
+      <label class="switch">
+        <img class="theme" src="src/darkk.png" alt="Dark mode" />
+        <input type="checkbox" id="theme-toggle" aria-label="Switch theme (dark/light)" />
+        <span class="slider round"></span>
+        <img class="theme" src="src/lightt.png" alt="Light mode" />
+      </label>
+    </div>
+  </header>
 
     <section class="home" id="home">
       <div class="home-content">
