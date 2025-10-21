@@ -255,7 +255,7 @@ span {
   letter-spacing: 0.1rem;
   font-weight: 600;
   transition: 0.3s ease-in-out;
-  cursor: pointer;
+backFull  cursor: pointer;
   text-decoration: none;
 }
 .btn:hover {
@@ -298,61 +298,69 @@ span {
   position: absolute;
   width: calc(100% + 8px);
   height: 100%;
-  border-left: 3px solid var(--bg-color);
+  border-left: 3px solid var(--main-color);
   right: -1px;
   animation: cursor 0.6s infinite, typing 20s steps(14) infinite;
 }
 @keyframes cursor {
-  to {
-    border-left: 2px solid var(--main-color);
+  0%,
+  100% {
+    border-left-color: var(--main-color);
+  }
+  50% {
+    border-left-color: transparent;
   }
 }
 @keyframes words {
-  5%,
-  20% {
+  0%,
+  16% {
+    content: "Software Engineer";
+  }
+  17%,
+  32% {
     content: "Full-Stack";
   }
-  21%,
-  40% {
+  33%,
+  48% {
     content: "Web Designer";
   }
-  41%,
-  60% {
-    content: "Back-end";
+  49%,
+  64% {
+    content: "Back-End";
   }
-  61%,
+  65%,
   80% {
     content: "Web Developer";
   }
   81%,
   100% {
-    content: "Front-end";
+    content: "Front-End";
   }
 }
 
 @keyframes typing {
-  10%,
-  15%,
-  30%,
-  35%,
-  50%,
-  55%,
-  70%,
-  75%,
-  90%,
-  95% {
-    width: 0;
+  0%,
+  16%,
+  32%,
+  48%,
+  64%,
+  80%,
+  100% {
+    width: calc(100% + 8px);
   }
   5%,
-  20%,
-  25%,
-  40%,
+  13%,
+  21%,
+  29%,
+  37%,
   45%,
-  60%,
-  65%,
-  80%,
-  85% {
-    width: calc(100%);
+  53%,
+  61%,
+  69%,
+  77%,
+  85%,
+  93% {
+    width: 0;
   }
 }
 .heading {

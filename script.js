@@ -4,21 +4,22 @@ let sections = document.querySelectorAll("section");
 let navLinks = document.querySelectorAll("header nav a");
 
 window.onscroll = () => {
-  sections.forEach(sec => {
+  sections.forEach((sec) => {
     let top = window.scrollY;
     let offset = sec.offsetTop - 150;
     let height = sec.offsetHeight;
     let id = sec.getAttribute("id");
 
     if (top >= offset && top < offset + height) {
-      navLinks.forEach(link => {
+      navLinks.forEach((link) => {
         link.classList.remove("active");
       });
-      document.querySelector(`header nav a[href="#${id}"]`).classList.add("active");
+      document
+        .querySelector(`header nav a[href="#${id}"]`)
+        .classList.add("active");
     }
   });
 };
-
 
 menuIcon.onclick = () => {
   menuIcon.classList.toggle("bx-x");
@@ -37,65 +38,66 @@ document.addEventListener("click", (event) => {
   }
 });
 
-document.addEventListener('DOMContentLoaded', function() {
-  const stars = document.querySelectorAll('.star');
+document.addEventListener("DOMContentLoaded", function () {
+  const stars = document.querySelectorAll(".star");
 
-  stars.forEach(star => {
-    star.addEventListener('click', () => {
-      const value = parseInt(star.getAttribute('data-value'));
+  stars.forEach((star) => {
+    star.addEventListener("click", () => {
+      const value = parseInt(star.getAttribute("data-value"));
       const parent = star.parentNode;
 
-      const siblings = parent.querySelectorAll('.star');
-      siblings.forEach(sibling => {
-        sibling.classList.remove('active');
+      const siblings = parent.querySelectorAll(".star");
+      siblings.forEach((sibling) => {
+        sibling.classList.remove("active");
       });
 
       for (let i = 0; i < value; i++) {
-        siblings[i].classList.add('active');
+        siblings[i].classList.add("active");
       }
     });
   });
 });
 
-
-
-document.addEventListener('DOMContentLoaded', function() {
-  const checkbox = document.getElementById('language-toggle');
+document.addEventListener("DOMContentLoaded", function () {
+  const checkbox = document.getElementById("language-toggle");
   if (checkbox) {
-      // Verifica se está na página index-pt.html e marca o checkbox
-      if (window.location.pathname === '/index-pt.html') {
-          checkbox.checked = true;
-      } else {
-          checkbox.checked = false;
-      }
+    // Verifica se está na página index-us.html e marca o checkbox
+    if (window.location.pathname === "/index-us.html") {
+      checkbox.checked = true;
+    } else {
+      checkbox.checked = false;
+    }
   }
 });
 
-const checkbox = document.getElementById('language-toggle');
+const checkbox = document.getElementById("language-toggle");
 
-checkbox.addEventListener('change', function() {
-    const isChecked = this.checked;
-    const currentPath = window.location.pathname;
-    let targetPath = isChecked ? '/index-pt.html' : '/index.html';
+checkbox.addEventListener("change", function () {
+  const isChecked = this.checked;
+  const currentPath = window.location.pathname;
+  let targetPath = isChecked ? "/index-us.html" : "/index.html";
 
-    // Verifica se o redirecionamento é necessário apenas se não estiver na página de destino
-    if ((isChecked && !currentPath.includes('/index-pt.html')) || (!isChecked && !currentPath.includes('/index.html'))) {
-        window.location.href = targetPath;
-    }
+  // Verifica se o redirecionamento é necessário apenas se não estiver na página de destino
+  if (
+    (isChecked && !currentPath.includes("/index-us.html")) ||
+    (!isChecked && !currentPath.includes("/index.html"))
+  ) {
+    window.location.href = targetPath;
+  }
 });
 
-const themeToggle = document.getElementById('theme-toggle');
+const themeToggle = document.getElementById("theme-toggle");
 
 // Adiciona um ouvinte de evento para detectar mudanças no estado do switch
-themeToggle.addEventListener('change', function() {
+themeToggle.addEventListener("change", function () {
   // Seleciona o elemento root do documento
   const root = document.documentElement;
-  
+
   // Se o switch estiver marcado, adiciona a classe .light-theme ao root
   if (this.checked) {
-    root.classList.add('light-theme');
+    root.classList.add("light-theme");
   } else {
     // Se o switch não estiver marcado, remove a classe .light-theme do root
-    root.classList.remove('light-theme');
+    root.classList.remove("light-theme");
   }
 });
