@@ -65,15 +65,28 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     const currentPath = normalizePath(window.location.pathname);
-    const isEnglishPage = currentPath.endsWith("/index-us.html");
+    const isEnglishPage =
+      currentPath.endsWith("/index-us.html") ||
+      currentPath.endsWith("/index-us");
     const isPortuguesePage =
-      currentPath === "/" || currentPath.endsWith("/index.html");
+      currentPath === "/" ||
+      currentPath.endsWith("/index.html") ||
+      currentPath.endsWith("/index");
+
+    const basePath = normalizePath(
+      currentPath.replace(/index-us\.html$|index\.html$/, ""),
+    );
+    const englishPath = `${
+      basePath === "/" ? "" : `${basePath}/`
+    }index-us.html`.replace(/\/{2,}/g, "/");
+    const portuguesePath =
+      basePath === "/" ? "/" : `${basePath}/index.html`.replace(/\/{2,}/g, "/");
 
     languageToggle.checked = isEnglishPage;
 
     languageToggle.addEventListener("change", (event) => {
       const wantsEnglish = event.target.checked;
-      const targetPath = wantsEnglish ? "/index-us.html" : "/";
+      const targetPath = wantsEnglish ? englishPath : portuguesePath;
       const alreadyOnTarget = wantsEnglish ? isEnglishPage : isPortuguesePage;
 
       if (!alreadyOnTarget) {
