@@ -1,38 +1,37 @@
 # monquero.dev.br
 
-Portfólio profissional de Douglas Monquero, com foco em projetos web e experimentos front-end.
+Portfolio profissional de Douglas Monquero, com foco em projetos web e experimentos front-end.
 
 - Site: [https://www.monquero.dev.br](https://www.monquero.dev.br)
 - Blog: [https://www.monquero.dev.br/blog](https://www.monquero.dev.br/blog)
 
-## Visão geral
+## Visao geral
 
-O projeto reúne:
-- Landing page em HTML/CSS/JS estático servida pelo Apache/Railway.
-- Blog em [Astro](https://astro.build/) hospedado no mesmo domínio, com posts em Markdown, busca Pagefind, comentários Giscus e feed RSS.
-- Automatização de build para gerar o blog e publicar dentro do diretório `blog/`.
+O projeto reune:
+- Landing page em HTML/CSS/JS estatica servida pelo Apache/Railway.
+- Blog em [Astro](https://astro.build/) hospedado no mesmo dominio, com posts em Markdown, busca Pagefind, comentarios Giscus e feed RSS.
+- Automatizacao de build para gerar o blog e publica-lo dentro do diretorio `dist/blog`.
 
 ## Scripts
 
 ```bash
-# roda o server de desenvolvimento do portfólio
+# roda o server de desenvolvimento do portfolio
 npm run dev
 
-# gera o blog e copia o build estático para /blog
+# gera o blog e copia o build estatico para dist/blog
 npm run build
 
-# usado em produção (Railway) para servir a pasta /blog
+# usado em producao (Railway) para compilar e servir a pasta dist
 npm start
 ```
 
 ## Estrutura
 
-- `assets/` – imagens e ícones do portfólio.
-- `src/` – código-fonte do site principal.
-- `blog-app/` – projeto Astro do blog (`src/content/posts/*.md` para novos artigos).
-- `blog/` – output gerado para deploy, criado via `npm run build`.
+- `assets/` — imagens e icones do portfolio.
+- `src/` — codigo-fonte do site principal.
+- `blog-app/` — projeto Astro do blog (`src/content/posts/*.md` para novos artigos).
+- `dist/` — artefatos finais para deploy, com o portfolio na raiz e o blog em `/blog`.
 
 ## Contribuindo / Roadmap
 
-Sugestões são bem-vindas! Abra uma issue ou envie um PR com melhorias de conteúdo, acessibilidade ou performance.
-
+Sugestoes sao bem-vindas! Abra uma issue ou envie um PR com melhorias de conteudo, acessibilidade ou performance.
