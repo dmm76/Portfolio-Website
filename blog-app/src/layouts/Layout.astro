@@ -42,6 +42,10 @@ const ogImageUrl =
 
     {canonicalUrl && <link rel="canonical" href={canonicalUrl} />}
     <link rel="icon" type="image/svg+xml" href={`${BASE}favicon.svg`} />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+    />
 
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
@@ -54,18 +58,35 @@ const ogImageUrl =
   </head>
 
   <body>
-    <header class="site-header">
-      <nav class="header__nav">
-        <a href="https://www.monquero.dev.br/">Portf&oacute;lio</a>
-        <a href={`${BASE}`}>Blog</a>
+    <header class="blog-header">
+      <a href="https://www.monquero.dev.br/" class="blog-logo">
+        Douglas <span>Monquero</span>
+      </a>
+
+      <nav class="blog-nav">
+        <a href={`${BASE}`}>Inicio</a>
+        <a href="https://www.monquero.dev.br/#projects">Projetos</a>
+        <a href="https://www.monquero.dev.br/blog/">Arquivo</a>
+        <a href="https://www.monquero.dev.br/#contact">Contato</a>
       </nav>
 
-      <div id="search" class="header__search" data-base={BASE}></div>
+      <div id="search" class="blog-search" data-base={BASE}></div>
+
+      <button
+        type="button"
+        class="blog-menu"
+        aria-label="Abrir menu"
+        data-menu-toggle
+      >
+        <span></span>
+      </button>
 
       <script is:inline>
         document.addEventListener("DOMContentLoaded", async () => {
           const searchEl = document.getElementById("search");
           const base = searchEl?.dataset.base ?? "/";
+          const menuButton = document.querySelector("[data-menu-toggle]");
+          const nav = document.querySelector(".blog-nav");
 
           try {
             const { PagefindUI } = await import(`${base}pagefind/pagefind-ui.js`);
@@ -75,85 +96,321 @@ const ogImageUrl =
               bundlePath: `${base}pagefind/`,
             });
           } catch (error) {
-            console.warn("Pagefind UI não pôde ser carregado:", error);
+            console.warn("Pagefind UI nao pode ser carregado:", error);
+          }
+
+          if (menuButton && nav) {
+            menuButton.addEventListener("click", () => {
+              menuButton.classList.toggle("is-open");
+              nav.classList.toggle("is-open");
+            });
+
+            document.addEventListener("click", (event) => {
+              if (
+                !menuButton.contains(event.target) &&
+                !nav.contains(event.target)
+              ) {
+                menuButton.classList.remove("is-open");
+                nav.classList.remove("is-open");
+              }
+            });
           }
         });
       </script>
     </header>
 
-    <main class="site-main">
+    <main class="blog-main">
       <slot />
     </main>
 
-    <footer class="site-footer">
-      &copy; {new Date().getFullYear()} Douglas Monquero - monquero.dev.br
+    <footer class="blog-footer">
+      <div>
+        &copy; {new Date().getFullYear()} Douglas Marcelo Monquero. Todos os
+        direitos reservados.
+      </div>
+      <div class="blog-footer__links">
+        <a href="https://www.monquero.dev.br/">Portfólio</a>
+        <a href="https://github.com/dmm76" target="_blank" rel="noopener"
+          >GitHub</a
+        >
+        <a
+          href="https://www.linkedin.com/in/douglas-monquero/"
+          target="_blank"
+          rel="noopener"
+          >LinkedIn</a
+        >
+      </div>
     </footer>
   </body>
 </html>
 
 <style>
+  :root {
+    --bg-color: #080808;
+    --second-bg-color: #121227;
+    --text-color: #f5f7fb;
+    --muted-text: #94a3b8;
+    --main-color: #00ffee;
+    --border-color: rgba(0, 255, 238, 0.2);
+  }
+
   :global(html),
   :global(body) {
     margin: 0;
     width: 100%;
-    height: 100%;
-    font-family:
-      system-ui,
-      -apple-system,
-      "Segoe UI",
-      Roboto,
-      Ubuntu,
-      Cantarell,
-      "Noto Sans",
-      sans-serif;
-    background-color: #ffffff;
-    color: #111827;
+    min-height: 100%;
+    font-family: "Poppins", sans-serif;
+    background: radial-gradient(
+        circle at 20% 20%,
+        rgba(0, 255, 238, 0.1),
+        transparent 45%
+      ),
+      radial-gradient(
+        circle at 80% 0%,
+        rgba(0, 255, 238, 0.08),
+        transparent 50%
+      ),
+      var(--bg-color);
+    color: var(--text-color);
   }
 
   a {
     text-decoration: none;
     color: inherit;
+    transition: color 0.3s ease, border-color 0.3s ease;
   }
 
   a:hover {
-    text-decoration: underline;
+    color: var(--main-color);
   }
 
-  .site-header {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    padding: 1rem clamp(1rem, 3vw, 2rem);
-    border-bottom: 1px solid #e5e7eb;
+  .blog-header {
     position: sticky;
     top: 0;
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(12px);
     z-index: 10;
-  }
-
-  .header__nav {
     display: flex;
-    gap: 0.85rem;
-    font-weight: 600;
-    letter-spacing: -0.01em;
+    align-items: center;
+    gap: 2.5rem;
+    padding: 2.8rem clamp(2rem, 8vw, 10rem);
+    background: rgba(8, 8, 8, 0.85);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--border-color);
   }
 
-  .header__search {
+  .blog-logo {
+    font-size: clamp(2.2rem, 2.4rem + 0.4vw, 3rem);
+    font-weight: 800;
+    color: var(--text-color);
+  }
+
+  .blog-logo span {
+    color: var(--main-color);
+    text-shadow: 0 0 20px rgba(0, 255, 238, 0.8);
+  }
+
+  .blog-nav {
+    display: flex;
+    align-items: center;
+    gap: clamp(1.2rem, 2vw, 3rem);
+    font-size: 1.6rem;
+    font-weight: 500;
+  }
+
+  .blog-nav a {
+    border-bottom: 2px solid transparent;
+    padding-bottom: 0.4rem;
+    white-space: nowrap;
+  }
+
+  .blog-nav a:hover,
+  .blog-nav a:focus-visible {
+    border-color: var(--main-color);
+    outline: none;
+  }
+
+  .blog-search {
     margin-left: auto;
-    width: 100%;
-    max-width: 420px;
+    width: clamp(220px, 28vw, 340px);
   }
 
-  .site-main {
-    min-height: 60vh;
+  .blog-menu {
+    display: none;
+    width: 44px;
+    height: 44px;
+    border-radius: 999px;
+    border: 1px solid var(--border-color);
+    background: rgba(255, 255, 255, 0.04);
+    position: relative;
+    cursor: pointer;
+    transition: border-color 0.3s ease, background 0.3s ease;
   }
 
-  .site-footer {
-    padding: 1.5rem clamp(1rem, 3vw, 2rem);
-    border-top: 1px solid #e5e7eb;
-    text-align: center;
-    font-size: 0.95rem;
-    color: #6b7280;
+  .blog-menu span,
+  .blog-menu::before,
+  .blog-menu::after {
+    position: absolute;
+    content: "";
+    width: 24px;
+    height: 2px;
+    background: var(--text-color);
+    left: 50%;
+    transform: translateX(-50%);
+    transition: transform 0.3s ease, opacity 0.3s ease;
+  }
+
+  .blog-menu span {
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .blog-menu::before {
+    top: 14px;
+  }
+
+  .blog-menu::after {
+    bottom: 14px;
+  }
+
+  .blog-menu.is-open span {
+    opacity: 0;
+  }
+
+  .blog-menu.is-open::before {
+    transform: translate(-50%, 6px) rotate(45deg);
+  }
+
+  .blog-menu.is-open::after {
+    transform: translate(-50%, -6px) rotate(-45deg);
+  }
+
+  .blog-main {
+    width: min(1100px, 90%);
+    margin: clamp(7rem, 12vh, 10rem) auto 6rem;
+    display: grid;
+    gap: clamp(3rem, 4vw, 4.5rem);
+  }
+
+  .blog-footer {
+    padding: 3rem clamp(2rem, 8vw, 10rem);
+    background: rgba(10, 10, 10, 0.95);
+    border-top: 1px solid var(--border-color);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.4rem;
+    color: var(--muted-text);
+  }
+
+  .blog-footer__links {
+    display: flex;
+    gap: 2rem;
+  }
+
+  .blog-footer__links a {
+    font-weight: 500;
+  }
+
+  :global(.pagefind-ui__search-input) {
+    background: rgba(18, 18, 39, 0.85);
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
+    border-radius: 999px;
+    padding: 1.1rem 2.8rem;
+    font-size: 1.4rem;
+    box-shadow: inset 0 0 0 1px rgba(0, 255, 238, 0.05);
+  }
+
+  :global(.pagefind-ui__search-input:focus) {
+    outline: none;
+    border-color: var(--main-color);
+    box-shadow: 0 0 0 2px rgba(0, 255, 238, 0.2);
+  }
+
+  :global(.pagefind-ui__drawer) {
+    background: rgba(12, 12, 24, 0.95);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    color: var(--text-color);
+  }
+
+  :global(.pagefind-ui__result-title) {
+    color: var(--text-color);
+  }
+
+  :global(.pagefind-ui__result-excerpt mark) {
+    color: var(--bg-color);
+  }
+
+  @media (max-width: 980px) {
+    .blog-header {
+      padding: 2.4rem clamp(1.8rem, 6vw, 6rem);
+      gap: 1.8rem;
+    }
+
+    .blog-nav {
+      position: fixed;
+      inset: 0 0 auto auto;
+      top: 92px;
+      right: 24px;
+      background: rgba(8, 8, 20, 0.95);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 2.4rem;
+      flex-direction: column;
+      gap: 1.8rem;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+      transform-origin: top right;
+      transform: scale(0.9);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease, transform 0.25s ease;
+    }
+
+    .blog-nav.is-open {
+      opacity: 1;
+      transform: scale(1);
+      pointer-events: auto;
+    }
+
+    .blog-search {
+      display: none;
+    }
+
+    .blog-menu {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .blog-main {
+      width: min(960px, 92%);
+      margin: clamp(6rem, 20vw, 9rem) auto 4.5rem;
+    }
+
+    .blog-footer {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1.2rem;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .blog-header {
+      padding: 2rem clamp(1.6rem, 6vw, 4rem);
+    }
+
+    .blog-logo {
+      font-size: 2.2rem;
+    }
+
+    .blog-main {
+      width: min(95%, 600px);
+    }
+
+    .blog-footer {
+      font-size: 1.3rem;
+    }
   }
 </style>
