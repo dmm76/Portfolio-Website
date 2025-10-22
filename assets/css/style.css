@@ -74,14 +74,22 @@ body {
   text-shadow: 0 0 25px var(--main-color);
 }
 
+.navbar {
+  display: flex;
+  align-items: center;
+  gap: 3rem;
+  flex-wrap: nowrap;
+}
+
 .navbar a {
   font-size: 1.8rem;
   color: var(--text-color);
-  margin-left: 4rem;
+  margin-left: 0;
   font-weight: 500;
   transition: 0.3s ease;
   border-bottom: 3px solid transparent;
   text-decoration: none;
+  white-space: nowrap;
 }
 
 .navbar a:hover,
@@ -731,6 +739,12 @@ backFull  cursor: pointer;
 @media (max-width: 1285px) {
   html {
     font-size: 55%;
+  }
+  .header {
+    padding: 3rem 8%;
+  }
+  .navbar {
+    gap: 2.4rem;
   }
   .services-container {
     padding-bottom: 7rem;
