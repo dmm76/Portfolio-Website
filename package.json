@@ -5,10 +5,14 @@
   "main": "index.js",
   "scripts": {
     "build:blog": "cd blog-app && npm ci && npm run build",
-    "postbuild:blog": "rm -rf blog && mkdir blog && cp -r blog-app/dist/* blog/",
+    "postbuild:blog": "rm -rf blog && mkdir blog && cp -r blog-app/dist/. blog/",
     "build": "npm run build:blog && npm run postbuild:blog",
+    "start": "npx serve blog -l ${PORT:-3000}",
     "dev": "npx live-server --port=5173 --open=./index.html",
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "serve": "^14.2.1"
   },
   "repository": {
     "type": "git",
