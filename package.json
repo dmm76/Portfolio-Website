@@ -1,0 +1,24 @@
+{
+  "name": "portfolio-website",
+  "version": "1.0.0",
+  "description": "Personal Portfolio Website using HTML CSS Javascript<br>\r  Veja o site <a target=\"_blank\" href=\"https://www.monquero.dev.br/\">aqui</a>",
+  "main": "index.js",
+  "scripts": {
+    "build:blog": "cd blog-app && npm ci && npm run build",
+    "postbuild:blog": "rm -rf blog && mkdir blog && cp -r blog-app/dist/* blog/",
+    "build": "npm run build:blog && npm run postbuild:blog",
+    "dev": "npx live-server --port=5173 --open=./index.html",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dmm76/Portfolio-Website.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dmm76/Portfolio-Website/issues"
+  },
+  "homepage": "https://github.com/dmm76/Portfolio-Website#readme"
+}
