@@ -2,6 +2,12 @@ const menuIcon = document.querySelector("#menu-icon");
 const navbar = document.querySelector(".navbar");
 const sections = document.querySelectorAll("section");
 const navLinks = document.querySelectorAll("header nav a");
+const THEME_KEY = "monquero-theme";
+
+const storedTheme = localStorage.getItem(THEME_KEY);
+if (storedTheme === "light") {
+  document.documentElement.classList.add("light-theme");
+}
 
 if (sections.length && navLinks.length) {
   window.addEventListener("scroll", () => {
@@ -59,12 +65,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const languageToggle = document.getElementById("language-toggle");
   if (languageToggle) {
-    const normalizePath = (pathname) => {
-      if (pathname === "/") return "/";
-      return pathname.endsWith("/") ? pathname.slice(0, -1) : pathname;
+    const sanitizePath = (pathname) => {
+      if (!pathname.startsWith("/")) {
+        return `/${pathname}`;
+      }
+      return pathname;
     };
 
-    const currentPath = normalizePath(window.location.pathname);
+    const currentPath = sanitizePath(window.location.pathname);
     const isEnglishPage =
       currentPath.endsWith("/index-us.html") ||
       currentPath.endsWith("/index-us");
@@ -73,14 +81,20 @@ document.addEventListener("DOMContentLoaded", () => {
       currentPath.endsWith("/index.html") ||
       currentPath.endsWith("/index");
 
-    const basePath = normalizePath(
-      currentPath.replace(/index-us\.html$|index\.html$/, ""),
+    let directory = currentPath.replace(
+      /(index-us|index)\.html$/,
+      "",
     );
-    const englishPath = `${
-      basePath === "/" ? "" : `${basePath}/`
-    }index-us.html`.replace(/\/{2,}/g, "/");
+    if (directory === "" || directory === "//") {
+      directory = "/";
+    } else if (!directory.endsWith("/")) {
+      directory = `${directory}/`;
+    }
+
+    const englishPath =
+      directory === "/" ? "/index-us.html" : `${directory}index-us.html`;
     const portuguesePath =
-      basePath === "/" ? "/" : `${basePath}/index.html`.replace(/\/{2,}/g, "/");
+      directory === "/" ? "/" : `${directory}index.html`;
 
     languageToggle.checked = isEnglishPage;
 
@@ -97,12 +111,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const themeToggle = document.getElementById("theme-toggle");
   if (themeToggle) {
+    themeToggle.checked = document.documentElement.classList.contains(
+      "light-theme",
+    );
+
     themeToggle.addEventListener("change", function () {
       const root = document.documentElement;
       if (this.checked) {
         root.classList.add("light-theme");
+        localStorage.setItem(THEME_KEY, "light");
       } else {
         root.classList.remove("light-theme");
+        localStorage.setItem(THEME_KEY, "dark");
       }
     });
   }
