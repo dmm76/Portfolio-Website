@@ -8,7 +8,7 @@ const posts = defineCollection({
       description: z.string().min(10, "Escreva uma descrição curta para o post."),
       pubDate: z.date(),
       updatedDate: z.date().optional(),
-      heroImage: image().optional(),
+      heroImage: z.string().optional(),
       tags: z.array(z.string()).default([]),
       draft: z.boolean().default(false),
     }),

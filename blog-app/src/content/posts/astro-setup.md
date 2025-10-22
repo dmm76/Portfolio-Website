@@ -7,6 +7,7 @@ tags:
   - tecnologia
   - tutorial
 draft: false
+heroImage: "/blog/images/astro.webp"
 ---
 
 Montei este blog para ser rápido de atualizar e fácil de hospedar na Railway. Seguem os principais pontos da stack:

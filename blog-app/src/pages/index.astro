@@ -16,6 +16,9 @@ const formatter = new Intl.DateTimeFormat("pt-BR", {
 
 const base = import.meta.env.BASE_URL ?? "/";
 const withTrailingSlash = base.endsWith("/") ? base : `${base}/`;
+
+const getCategory = (tags: string[]) =>
+  tags.length > 0 ? tags[0].toUpperCase() : "GERAL";
 ---
 
 <Layout
@@ -31,32 +34,57 @@ const withTrailingSlash = base.endsWith("/") ? base : `${base}/`;
         instantanea.
       </p>
     </header>
+
+    <div class="blog-filters">
+      <button type="button" class="filter-button" aria-pressed="true">
+        Todas as categorias
+        <span aria-hidden="true">▾</span>
+      </button>
+      <button type="button" class="filter-button">
+        Todos os meses
+        <span aria-hidden="true">▾</span>
+      </button>
+    </div>
   </section>
 
-  <section class="blog-posts">
-    <ul>
-      {posts.map((post) => (
-        <li>
-          <a href={`${withTrailingSlash}${post.slug}/`}>
-            <div class="post-meta">
-              <h2>{post.data.title}</h2>
-              <time datetime={post.data.pubDate.toISOString()}>
-                {formatter.format(post.data.pubDate)}
-              </time>
-            </div>
-            <p class="post-description">{post.data.description}</p>
+  <section class="cards-grid">
+    {posts.map((post) => {
+      const cover = post.data.heroImage;
+      const category = getCategory(post.data.tags);
 
-            {post.data.tags.length > 0 && (
-              <div class="post-tags">
-                {post.data.tags.map((tag) => (
-                  <span>#{tag}</span>
-                ))}
+      return (
+        <article class="post-card">
+          <a href={`${withTrailingSlash}${post.slug}/`}>
+            <div class="post-card__image">
+              {cover ? (
+                <img
+                  src={cover}
+                  alt={`Imagem do post ${post.data.title}`}
+                  loading="lazy"
+                />
+              ) : (
+                <div class="post-card__placeholder" aria-hidden="true">
+                  <span>{category}</span>
+                </div>
+              )}
+            </div>
+
+            <div class="post-card__body">
+              <span class="post-card__category">{category}</span>
+              <h3>{post.data.title}</h3>
+              <p>{post.data.description}</p>
+
+              <div class="post-card__meta">
+                <time datetime={post.data.pubDate.toISOString()}>
+                  {formatter.format(post.data.pubDate)}
+                </time>
+                <span class="post-card__cta">Ler mais</span>
               </div>
-            )}
+            </div>
           </a>
-        </li>
-      ))}
-    </ul>
+        </article>
+      );
+    })}
   </section>
 </Layout>
 
@@ -64,9 +92,9 @@ const withTrailingSlash = base.endsWith("/") ? base : `${base}/`;
   .blog-hero {
     display: flex;
     flex-direction: column;
-    gap: 1.8rem;
+    gap: clamp(2rem, 4vw, 3.2rem);
     padding: 0 1rem;
-    margin-bottom: 2.8rem;
+    margin-bottom: clamp(3rem, 5vw, 4.2rem);
   }
 
   .blog-hero header {
@@ -99,92 +127,163 @@ const withTrailingSlash = base.endsWith("/") ? base : `${base}/`;
     color: var(--muted-text);
   }
 
-  .blog-posts ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: grid;
-    gap: clamp(1.8rem, 2.8vw, 2.6rem);
-  }
-
-  .blog-posts li {
-    border: 1px solid rgba(0, 255, 238, 0.12);
-    border-radius: 22px;
-    background: linear-gradient(
-      145deg,
-      rgba(12, 12, 24, 0.85),
-      rgba(12, 12, 24, 0.45)
-    );
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
-    transition: transform 0.2s ease, border-color 0.2s ease,
-      box-shadow 0.2s ease;
-  }
-
-  .blog-posts li:hover {
-    transform: translateY(-4px);
-    border-color: rgba(0, 255, 238, 0.4);
-    box-shadow: 0 24px 50px rgba(0, 255, 238, 0.12);
-  }
-
-  .blog-posts a {
-    display: flex;
-    flex-direction: column;
-    gap: 1.2rem;
-    padding: clamp(2rem, 2vw, 2.8rem);
-    color: inherit;
-  }
-
-  .post-meta {
+  .blog-filters {
     display: flex;
     flex-wrap: wrap;
-    gap: 1rem;
-    align-items: baseline;
+    gap: 1.2rem;
   }
 
-  .post-meta h2 {
+  .filter-button {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 1.2rem 1.8rem;
+    border-radius: 999px;
+    border: 1px solid rgba(0, 255, 238, 0.3);
+    background: rgba(8, 8, 18, 0.6);
+    color: var(--text-color);
+    font-weight: 600;
+    font-size: 1.35rem;
+    letter-spacing: 0.03em;
+    cursor: pointer;
+    transition: border-color 0.2s ease, background 0.2s ease;
+  }
+
+  .filter-button[aria-pressed="true"],
+  .filter-button:hover {
+    border-color: rgba(0, 255, 238, 0.6);
+    background: rgba(0, 255, 238, 0.15);
+  }
+
+  .cards-grid {
+    display: grid;
+    gap: clamp(2rem, 3vw, 3.2rem);
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  }
+
+  .post-card {
+    border-radius: 28px;
+    border: 1px solid rgba(0, 255, 238, 0.12);
+    overflow: hidden;
+    background: rgba(12, 12, 24, 0.85);
+    box-shadow: 0 28px 60px rgba(0, 0, 0, 0.35);
+    transition: transform 0.2s ease, box-shadow 0.2s ease,
+      border-color 0.2s ease;
+  }
+
+  .post-card:hover {
+    transform: translateY(-6px);
+    border-color: rgba(0, 255, 238, 0.35);
+    box-shadow: 0 34px 70px rgba(0, 255, 238, 0.18);
+  }
+
+  .post-card a {
+    color: inherit;
+    display: grid;
+    grid-template-rows: auto 1fr;
+    text-decoration: none;
+  }
+
+  .post-card__image {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    background: rgba(15, 23, 42, 0.9);
+    overflow: hidden;
+  }
+
+  .post-card__image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    filter: saturate(1.1);
+    transition: transform 0.3s ease;
+  }
+
+  .post-card:hover .post-card__image img {
+    transform: scale(1.03);
+  }
+
+  .post-card__placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: radial-gradient(
+        circle at 20% 20%,
+        rgba(0, 255, 238, 0.35),
+        transparent 55%
+      ),
+      radial-gradient(
+        circle at 80% 0%,
+        rgba(0, 255, 238, 0.25),
+        transparent 60%
+      ),
+      rgba(8, 8, 24, 0.9);
+  }
+
+  .post-card__placeholder span {
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: rgba(0, 255, 238, 0.75);
+  }
+
+  .post-card__body {
+    display: grid;
+    gap: 1.2rem;
+    padding: clamp(2.2rem, 2.4vw, 2.8rem);
+  }
+
+  .post-card__category {
+    display: inline-block;
+    padding: 0.4rem 1.2rem;
+    border-radius: 999px;
+    background: rgba(0, 255, 238, 0.12);
+    color: var(--main-color);
+    font-size: 1.1rem;
+    letter-spacing: 0.04em;
+    font-weight: 600;
+  }
+
+  .post-card__body h3 {
     margin: 0;
-    font-size: clamp(2rem, 3vw, 2.4rem);
+    font-size: clamp(2rem, 2.8vw, 2.4rem);
+    line-height: 1.25;
   }
 
-  .post-meta time {
-    font-size: 1.3rem;
+  .post-card__body p {
+    margin: 0;
+    color: rgba(226, 232, 240, 0.88);
+    line-height: 1.7;
+    font-size: 1.45rem;
+  }
+
+  .post-card__meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 0.4rem;
+    font-size: 1.25rem;
     color: var(--muted-text);
   }
 
-  .post-description {
-    margin: 0;
-    color: rgba(226, 232, 240, 0.9);
-    line-height: 1.7;
-    font-size: 1.5rem;
-  }
-
-  .post-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.7rem;
-  }
-
-  .post-tags span {
-    background: rgba(0, 255, 238, 0.12);
+  .post-card__cta {
     color: var(--main-color);
-    padding: 0.45rem 1.1rem;
-    border-radius: 999px;
-    font-size: 1.2rem;
-    letter-spacing: 0.02em;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
   }
 
-  @media (max-width: 600px) {
-    .blog-hero {
-      text-align: left;
-    }
+  .post-card:hover .post-card__cta {
+    transform: translateX(3px);
+  }
 
-    .blog-posts a {
-      padding: clamp(1.8rem, 4vw, 2.2rem);
-    }
-
-    .post-meta {
-      flex-direction: column;
-      align-items: flex-start;
+  @media (max-width: 720px) {
+    .cards-grid {
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
     }
   }
 </style>

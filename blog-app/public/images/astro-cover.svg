@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" fill="none">
+  <defs>
+    <linearGradient id="g0" x1="0%" x2="100%" y1="0%" y2="100%">
+      <stop offset="0%" stop-color="#00ffee"/>
+      <stop offset="55%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#020617"/>
+    </linearGradient>
+    <radialGradient id="g1" cx="30%" cy="25%" r="60%">
+      <stop offset="0%" stop-color="#5bffeb" stop-opacity="0.75"/>
+      <stop offset="100%" stop-color="#0f172a" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1280" height="720" fill="url(#g0)"/>
+  <circle cx="360" cy="220" r="280" fill="url(#g1)"/>
+  <text x="120" y="420" fill="#081f37" font-family="Poppins, Arial, sans-serif" font-size="84" font-weight="700" letter-spacing="4">
+    Astro Insights
+  </text>
+  <text x="120" y="500" fill="#8af7ff" font-family="Poppins, Arial, sans-serif" font-size="42" font-weight="500" letter-spacing="6">
+    builds & tips
+  </text>
+</svg>

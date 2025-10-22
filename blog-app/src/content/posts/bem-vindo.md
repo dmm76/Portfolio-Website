@@ -7,6 +7,7 @@ tags:
   - pessoal
   - novidades
 draft: false
+heroImage: "/blog/images/welcome-cover.svg"
 ---
 
 Seja muito bem-vindo! Depois de alguns pedidos decidi integrar um blog ao meu site pessoal. A ideia é ter um espaço rápido para compartilhar estudos, bastidores de projetos e reflexões de carreira — tudo em um só lugar.
