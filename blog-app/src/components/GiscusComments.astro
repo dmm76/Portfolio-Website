@@ -1,0 +1,54 @@
+---
+const repo = import.meta.env.PUBLIC_GISCUS_REPO;
+const repoId = import.meta.env.PUBLIC_GISCUS_REPO_ID;
+const category = import.meta.env.PUBLIC_GISCUS_CATEGORY;
+const categoryId = import.meta.env.PUBLIC_GISCUS_CATEGORY_ID;
+
+const isConfigured =
+  Boolean(repo) &&
+  Boolean(repoId) &&
+  Boolean(category) &&
+  Boolean(categoryId);
+---
+
+{isConfigured ? (
+  <section>
+    <script
+      src="https://giscus.app/client.js"
+      data-repo={repo}
+      data-repo-id={repoId}
+      data-category={category}
+      data-category-id={categoryId}
+      data-mapping="pathname"
+      data-strict="0"
+      data-reactions-enabled="1"
+      data-emit-metadata="0"
+      data-input-position="top"
+      data-theme="preferred_color_scheme"
+      data-lang="pt"
+      data-loading="lazy"
+      crossOrigin="anonymous"
+      async
+    />
+    <noscript>
+      Ative o JavaScript para visualizar os comentários do Giscus.
+    </noscript>
+  </section>
+) : (
+  <section class="giscus-placeholder">
+    <p>
+      Configure as variáveis <code>PUBLIC_GISCUS_*</code> no arquivo <code>.env</code>
+      para habilitar os comentários via GitHub.
+    </p>
+  </section>
+)}
+
+<style>
+  .giscus-placeholder {
+    padding: 1.25rem 1.5rem;
+    border: 1px dashed #d1d5db;
+    border-radius: 1rem;
+    background: #f9fafb;
+    color: #4b5563;
+  }
+</style>

@@ -1,0 +1,73 @@
+---
+import { getCollection } from "astro:content";
+import Layout from "../layouts/Layout.astro";
+
+const posts = (await getCollection("posts", ({ data }) => !data.draft)).sort(
+  (a, b) =>
+    new Date(b.data.pubDate).valueOf() -
+    new Date(a.data.pubDate).valueOf(),
+);
+
+const formatter = new Intl.DateTimeFormat("pt-BR", {
+  day: "2-digit",
+  month: "long",
+  year: "numeric",
+});
+
+const base = import.meta.env.BASE_URL ?? "/";
+const withTrailingSlash = base.endsWith("/") ? base : `${base}/`;
+---
+
+<Layout
+  title="Monquero Blog"
+  description="Estudos, bastidores de projetos e anotações de tecnologia."
+>
+  <section
+    style="display:flex;flex-direction:column;gap:2rem;padding:2.5rem 1.5rem;max-width:880px;margin:0 auto;"
+  >
+    <header style="display:flex;flex-direction:column;gap:.5rem;">
+      <h1 style="margin:0;font-size:2.5rem;">Últimos posts</h1>
+      <p style="margin:0;color:#4b5563;">
+        Textos escritos em Markdown, publicados automaticamente e com busca instantânea.
+      </p>
+    </header>
+
+    <ul style="display:flex;flex-direction:column;gap:1.5rem;padding:0;margin:0;list-style:none;">
+      {posts.map((post) => (
+        <li
+          style="border:1px solid #e5e7eb;border-radius:18px;padding:1.75rem;transition:border-color .2s,box-shadow .2s;"
+        >
+          <a
+            style="display:flex;flex-direction:column;gap:.75rem;color:inherit;"
+            href={`${withTrailingSlash}${post.slug}/`}
+          >
+            <div style="display:flex;flex-wrap:wrap;gap:.75rem;align-items:center;">
+              <h2 style="margin:0;font-size:1.75rem;">{post.data.title}</h2>
+              <time
+                datetime={post.data.pubDate.toISOString()}
+                style="color:#6b7280;font-size:.95rem;"
+              >
+                {formatter.format(post.data.pubDate)}
+              </time>
+            </div>
+            <p style="margin:0;color:#4b5563;line-height:1.6;">
+              {post.data.description}
+            </p>
+
+            {post.data.tags.length > 0 && (
+              <div style="display:flex;flex-wrap:wrap;gap:.5rem;">
+                {post.data.tags.map((tag) => (
+                  <span
+                    style="background:#f3f4f6;color:#374151;padding:.35rem .75rem;border-radius:999px;font-size:.85rem;"
+                  >
+                    #{tag}
+                  </span>
+                ))}
+              </div>
+            )}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </section>
+</Layout>

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://www.monquero.dev.br/blog/sitemap-index.xml

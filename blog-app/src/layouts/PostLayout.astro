@@ -1,0 +1,237 @@
+---
+import type { CollectionEntry } from "astro:content";
+import Layout from "./Layout.astro";
+import GiscusComments from "../components/GiscusComments.astro";
+
+type PostEntry = CollectionEntry<"posts">;
+type RenderedPost = Awaited<ReturnType<PostEntry["render"]>>;
+
+interface Props {
+  entry: PostEntry;
+  Content: RenderedPost["Content"];
+  headings: RenderedPost["headings"];
+}
+
+const { entry, Content, headings } = Astro.props as Props;
+
+const formatter = new Intl.DateTimeFormat("pt-BR", {
+  day: "2-digit",
+  month: "long",
+  year: "numeric",
+});
+
+const updated = entry.data.updatedDate
+  ? formatter.format(entry.data.updatedDate)
+  : null;
+
+const canonical = Astro.url?.href ?? "";
+const ogImage = `/og/${entry.slug}.png`;
+---
+
+<Layout
+  title={`${entry.data.title} | Monquero Blog`}
+  description={entry.data.description}
+  canonical={canonical}
+  ogImage={ogImage}
+>
+  <article class="post">
+    <header class="post__header">
+      <p class="post__meta">
+        Publicado em{" "}
+        <time datetime={entry.data.pubDate.toISOString()}>
+          {formatter.format(entry.data.pubDate)}
+        </time>
+        {updated && (
+          <>
+            {" "}
+            &bull; Atualizado em{" "}
+            <time datetime={entry.data.updatedDate!.toISOString()}>
+              {updated}
+            </time>
+          </>
+        )}
+      </p>
+      <h1>{entry.data.title}</h1>
+      <p class="post__description">{entry.data.description}</p>
+
+      {entry.data.tags.length > 0 && (
+        <ul class="post__tags">
+          {entry.data.tags.map((tag) => (
+            <li>#{tag}</li>
+          ))}
+        </ul>
+      )}
+
+      {headings.length > 1 && (
+        <nav class="post__toc" aria-label="Sum&aacute;rio do post">
+          <strong>&Iacute;ndice</strong>
+          <ol>
+            {headings
+              .filter((heading) => heading.depth <= 3)
+              .map((heading) => (
+                <li style={{ "--depth": heading.depth }}>
+                  <a href={`#${heading.slug}`}>{heading.text}</a>
+                </li>
+              ))}
+          </ol>
+        </nav>
+      )}
+    </header>
+
+    <section class="post__content">
+      <Content />
+    </section>
+
+    <footer class="post__footer">
+      <GiscusComments />
+    </footer>
+  </article>
+</Layout>
+
+<style>
+  .post {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 2.5rem 1.5rem 3.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .post__meta {
+    margin: 0;
+    color: #6b7280;
+    font-size: 0.95rem;
+  }
+
+  .post__header h1 {
+    margin: 0.35rem 0 0;
+    font-size: clamp(2.25rem, 4vw, 3rem);
+    color: #111827;
+    line-height: 1.1;
+  }
+
+  .post__description {
+    margin: 1rem 0 0;
+    color: #4b5563;
+    font-size: 1.1rem;
+  }
+
+  .post__tags {
+    margin: 1.5rem 0 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .post__tags li {
+    background: #f3f4f6;
+    color: #374151;
+    padding: 0.35rem 0.8rem;
+    border-radius: 999px;
+    font-size: 0.85rem;
+  }
+
+  .post__toc {
+    margin: 2rem 0 0;
+    padding: 1.25rem;
+    border: 1px solid #e5e7eb;
+    border-radius: 1rem;
+    background: #fafafa;
+  }
+
+  .post__toc strong {
+    display: block;
+    margin-bottom: 0.75rem;
+  }
+
+  .post__toc ol {
+    margin: 0;
+    padding-left: 1rem;
+    display: grid;
+    gap: 0.35rem;
+  }
+
+  .post__toc li {
+    font-size: 0.95rem;
+    color: #4b5563;
+    margin-left: calc((var(--depth, 2) - 2) * 0.75rem);
+  }
+
+  .post__toc a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .post__toc a:hover {
+    text-decoration: underline;
+  }
+
+  .post__content {
+    display: grid;
+    gap: 1.5rem;
+    color: #1f2937;
+    line-height: 1.75;
+  }
+
+  .post__content :global(h2) {
+    font-size: clamp(1.7rem, 3vw, 2.25rem);
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .post__content :global(h3) {
+    font-size: clamp(1.35rem, 2vw, 1.65rem);
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .post__content :global(p) {
+    margin: 0;
+  }
+
+  .post__content :global(a) {
+    color: #2563eb;
+  }
+
+  .post__content :global(blockquote) {
+    border-left: 4px solid #d1d5db;
+    padding-left: 1rem;
+    color: #4b5563;
+    margin: 1rem 0;
+  }
+
+  .post__content :global(pre) {
+    background: #111827;
+    color: #f9fafb;
+    padding: 1.25rem;
+    border-radius: 0.875rem;
+    overflow-x: auto;
+  }
+
+  .post__content :global(code) {
+    font-family:
+      ui-monospace,
+      SFMono-Regular,
+      Menlo,
+      Monaco,
+      Consolas,
+      "Liberation Mono",
+      "Courier New",
+      monospace;
+    font-size: 0.95rem;
+  }
+
+  .post__footer {
+    border-top: 1px solid #e5e7eb;
+    padding-top: 2rem;
+  }
+
+  @media (max-width: 640px) {
+    .post {
+      padding: 2rem 1rem 3rem;
+    }
+  }
+</style>

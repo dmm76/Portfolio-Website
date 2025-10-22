@@ -1,0 +1,159 @@
+---
+import "@pagefind/default-ui/css/ui.css";
+
+interface Props {
+  title?: string;
+  description?: string;
+  lang?: string;
+  canonical?: string;
+  ogImage?: string;
+}
+
+const {
+  title = "Monquero Blog",
+  description = "Posts do Douglas",
+  lang = "pt-BR",
+  canonical,
+  ogImage,
+} = Astro.props as Props;
+
+const BASE = import.meta.env.BASE_URL ?? "/";
+const site = Astro.site;
+
+const canonicalUrl =
+  canonical ??
+  (site ? new URL(Astro.url.pathname, site).toString() : undefined);
+
+const ogImageUrl =
+  ogImage && site && !ogImage.startsWith("http")
+    ? new URL(ogImage, site).toString()
+    : ogImage;
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+
+    <title>{title}</title>
+    <meta name="description" content={description} />
+
+    {canonicalUrl && <link rel="canonical" href={canonicalUrl} />}
+    <link rel="icon" type="image/svg+xml" href={`${BASE}favicon.svg`} />
+
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    {ogImageUrl && <meta property="og:image" content={ogImageUrl} />}
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    {ogImageUrl && <meta name="twitter:image" content={ogImageUrl} />}
+  </head>
+
+  <body>
+    <header class="site-header">
+      <nav class="header__nav">
+        <a href="https://www.monquero.dev.br/">Portf&oacute;lio</a>
+        <a href={`${BASE}`}>Blog</a>
+      </nav>
+
+      <div id="search" class="header__search" data-base={BASE}></div>
+
+      <script is:inline>
+        document.addEventListener("DOMContentLoaded", async () => {
+          const searchEl = document.getElementById("search");
+          const base = searchEl?.dataset.base ?? "/";
+
+          try {
+            const { PagefindUI } = await import(`${base}pagefind/pagefind-ui.js`);
+            new PagefindUI({
+              element: "#search",
+              showSubResults: true,
+              bundlePath: `${base}pagefind/`,
+            });
+          } catch (error) {
+            console.warn("Pagefind UI não pôde ser carregado:", error);
+          }
+        });
+      </script>
+    </header>
+
+    <main class="site-main">
+      <slot />
+    </main>
+
+    <footer class="site-footer">
+      &copy; {new Date().getFullYear()} Douglas Monquero - monquero.dev.br
+    </footer>
+  </body>
+</html>
+
+<style>
+  :global(html),
+  :global(body) {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    font-family:
+      system-ui,
+      -apple-system,
+      "Segoe UI",
+      Roboto,
+      Ubuntu,
+      Cantarell,
+      "Noto Sans",
+      sans-serif;
+    background-color: #ffffff;
+    color: #111827;
+  }
+
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  a:hover {
+    text-decoration: underline;
+  }
+
+  .site-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem clamp(1rem, 3vw, 2rem);
+    border-bottom: 1px solid #e5e7eb;
+    position: sticky;
+    top: 0;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(12px);
+    z-index: 10;
+  }
+
+  .header__nav {
+    display: flex;
+    gap: 0.85rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+
+  .header__search {
+    margin-left: auto;
+    width: 100%;
+    max-width: 420px;
+  }
+
+  .site-main {
+    min-height: 60vh;
+  }
+
+  .site-footer {
+    padding: 1.5rem clamp(1rem, 3vw, 2rem);
+    border-top: 1px solid #e5e7eb;
+    text-align: center;
+    font-size: 0.95rem;
+    color: #6b7280;
+  }
+</style>
