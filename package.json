@@ -25,4 +25,8 @@
     "url": "https://github.com/dmm76/Portfolio-Website/issues"
   },
   "homepage": "https://github.com/dmm76/Portfolio-Website#readme"
+  ,
+  "engines": {
+    "node": "18.x"
+  }
 }
