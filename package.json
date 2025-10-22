@@ -4,8 +4,8 @@
   "description": "Personal Portfolio Website using HTML CSS Javascript<br>\r  Veja o site <a target=\"_blank\" href=\"https://www.monquero.dev.br/\">aqui</a>",
   "main": "index.js",
   "scripts": {
-    "build:blog": "cd blog-app && npm ci && npm run build",
-    "postbuild:blog": "rm -rf blog && mkdir blog && cp -r blog-app/dist/. blog/",
+    "build:blog": "cd blog-app && npm install && npm run build",
+    "postbuild:blog": "node scripts/postbuild.mjs",
     "build": "npm run build:blog && npm run postbuild:blog",
     "start": "npx serve blog -l ${PORT:-3000}",
     "dev": "npx live-server --port=5173 --open=./index.html",
