@@ -16,6 +16,7 @@ const staticEntries = [
   "index-us.html",
   "obrigado.html",
   "thanks.html",
+  "favicon",
 ];
 
 rmSync(siteDistDir, { recursive: true, force: true });
