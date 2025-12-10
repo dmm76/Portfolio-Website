@@ -3,10 +3,9 @@ const navbar = document.querySelector(".navbar");
 const sections = document.querySelectorAll("section");
 const navLinks = document.querySelectorAll("header nav a");
 const THEME_KEY = "monquero-theme";
-const FADE_CLASS = "fade-out";
-const FADE_DELAY = 220;
-
-document.documentElement.classList.remove(FADE_CLASS);
+const LANGUAGE_TRANSITION_DELAY = 220;
+const languageTransitionOverlay = document.createElement("div");
+languageTransitionOverlay.className = "language-transition-overlay";
 
 const storedTheme = localStorage.getItem(THEME_KEY);
 if (storedTheme === "light") {
@@ -55,6 +54,7 @@ if (menuIcon && navbar) {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+  document.body.appendChild(languageTransitionOverlay);
   const stars = document.querySelectorAll(".star");
   stars.forEach((star) => {
     star.addEventListener("click", () => {
@@ -109,10 +109,10 @@ document.addEventListener("DOMContentLoaded", () => {
       const alreadyOnTarget = wantsEnglish ? isEnglishPage : isPortuguesePage;
 
       if (!alreadyOnTarget) {
-        document.documentElement.classList.add(FADE_CLASS);
+        languageTransitionOverlay.classList.add("visible");
         setTimeout(() => {
           window.location.href = targetPath;
-        }, FADE_DELAY);
+        }, LANGUAGE_TRANSITION_DELAY);
       }
     });
   }
