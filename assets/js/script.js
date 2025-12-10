@@ -3,6 +3,10 @@ const navbar = document.querySelector(".navbar");
 const sections = document.querySelectorAll("section");
 const navLinks = document.querySelectorAll("header nav a");
 const THEME_KEY = "monquero-theme";
+const FADE_CLASS = "fade-out";
+const FADE_DELAY = 220;
+
+document.documentElement.classList.remove(FADE_CLASS);
 
 const storedTheme = localStorage.getItem(THEME_KEY);
 if (storedTheme === "light") {
@@ -73,23 +77,24 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     const currentPath = sanitizePath(window.location.pathname);
-    const isEnglishPage =
-      currentPath.endsWith("/index-us.html") ||
-      currentPath.endsWith("/index-us");
+    const isEnglishPage = /\/index-us(?:\.html)?\/?$/.test(currentPath);
     const isPortuguesePage =
-      currentPath === "/" ||
-      currentPath.endsWith("/index.html") ||
-      currentPath.endsWith("/index");
+      !isEnglishPage &&
+      (currentPath === "/" ||
+        currentPath.endsWith("/") ||
+        /\/index(?:\.html)?\/?$/.test(currentPath));
 
-    let directory = currentPath.replace(
-      /(index-us|index)\.html$/,
-      "",
-    );
-    if (directory === "" || directory === "//") {
-      directory = "/";
-    } else if (!directory.endsWith("/")) {
-      directory = `${directory}/`;
-    }
+    const directory = (() => {
+      const withoutIndex = currentPath.replace(
+        /\/index(?:-us)?(?:\.html)?\/?$/,
+        "/",
+      );
+      const trimmed = withoutIndex.replace(/\/+$/, "");
+      if (trimmed === "") {
+        return "/";
+      }
+      return `${trimmed}/`;
+    })();
 
     const englishPath =
       directory === "/" ? "/index-us.html" : `${directory}index-us.html`;
@@ -104,7 +109,10 @@ document.addEventListener("DOMContentLoaded", () => {
       const alreadyOnTarget = wantsEnglish ? isEnglishPage : isPortuguesePage;
 
       if (!alreadyOnTarget) {
-        window.location.href = targetPath;
+        document.documentElement.classList.add(FADE_CLASS);
+        setTimeout(() => {
+          window.location.href = targetPath;
+        }, FADE_DELAY);
       }
     });
   }
