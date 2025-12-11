@@ -1,0 +1,55 @@
+---
+interface Props {
+  videoId: string;
+  title: string;
+  caption?: string;
+}
+
+const { videoId, title, caption } = Astro.props;
+---
+
+<figure class="video-embed" aria-label={title}>
+  <div class="video-embed__wrapper">
+    <iframe
+      src={`https://www.youtube.com/embed/${videoId}`}
+      title={title}
+      loading="lazy"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      allowfullscreen
+      referrerpolicy="strict-origin-when-cross-origin"
+    ></iframe>
+  </div>
+
+  {caption && <figcaption>{caption}</figcaption>}
+</figure>
+
+<style>
+  .video-embed {
+    margin: 2rem 0;
+  }
+
+  /* aqui você controla o tamanho do player */
+  .video-embed__wrapper {
+    width: 100%;              /* ocupa toda a largura do post */
+    max-width: 720px;         /* limite opcional, tira se quiser 100% mesmo */
+    margin-inline: auto;      /* centraliza */
+    aspect-ratio: 16 / 9;     /* mantém o formato do vídeo */
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+  }
+
+  .video-embed__wrapper iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    display: block;
+  }
+
+  figcaption {
+    margin-top: 0.8rem;
+    font-size: 1.3rem;
+    color: rgba(226, 232, 240, 0.85);
+    text-align: left;
+  }
+</style>
