@@ -132,11 +132,21 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   }
+
   const contactForm = document.getElementById("contact-form");
 
   if (contactForm) {
     contactForm.addEventListener("submit", async (event) => {
       event.preventDefault();
+
+      const submitButton = contactForm.querySelector(
+        'input[type="submit"]',
+      );
+
+      const originalText = submitButton.value;
+
+      submitButton.value = "Enviando...";
+      submitButton.disabled = true;
 
       const data = {
         nome: contactForm.name.value,
@@ -158,22 +168,20 @@ document.addEventListener("DOMContentLoaded", () => {
           },
         );
 
-        const submitButton = contactForm.querySelector('input[type="submit"]');
-
         if (response.ok) {
           submitButton.value = "Mensagem enviada!";
           contactForm.reset();
-
-          setTimeout(() => {
-            submitButton.value = "Enviar Mensagem";
-          }, 3000);
         } else {
           submitButton.value = "Erro ao enviar";
         }
       } catch (error) {
-        const submitButton = contactForm.querySelector('input[type="submit"]');
-        submitButton.value = "Erro ao enviar";
+        submitButton.value = "Erro de conexão";
       }
+
+      setTimeout(() => {
+        submitButton.value = originalText;
+        submitButton.disabled = false;
+      }, 3000);
     });
   }
 });
