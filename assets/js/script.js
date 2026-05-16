@@ -158,15 +158,21 @@ document.addEventListener("DOMContentLoaded", () => {
           },
         );
 
+        const submitButton = contactForm.querySelector('input[type="submit"]');
+
         if (response.ok) {
-          alert("Mensagem enviada com sucesso!");
+          submitButton.value = "Mensagem enviada!";
           contactForm.reset();
+
+          setTimeout(() => {
+            submitButton.value = "Enviar Mensagem";
+          }, 3000);
         } else {
-          alert("Erro ao enviar mensagem. Tente novamente.");
+          submitButton.value = "Erro ao enviar";
         }
       } catch (error) {
-        console.error("Erro ao enviar mensagem:", error);
-        alert("Erro de conexão com o servidor.");
+        const submitButton = contactForm.querySelector('input[type="submit"]');
+        submitButton.value = "Erro ao enviar";
       }
     });
   }
