@@ -331,10 +331,7 @@
     <section class="contact" id="contact">
       <h2 class="heading">Contact <span>Me</span></h2>
 
-      <form
-        action="https://formsubmit.co/douglas.monquero@gmail.com"
-        method="POST"
-      >
+      <form id="contact-form">
         <div class="input-group">
           <div class="input-box">
             <input type="text" name="name" placeholder="Full Name" required />
@@ -359,20 +356,7 @@
             placeholder="Your Message"
             required
           ></textarea>
-          <input type="submit" value="Send Message" class="btn" />
-
-          <!-- Campos ocultos -->
-          <input type="hidden" name="_captcha" value="false" />
-          <input
-            type="hidden"
-            name="_next"
-            value="https://www.monquero.dev.br/obrigado.html"
-          />
-          <input
-            type="hidden"
-            name="_subject"
-            value="New message from the website!"
-          />
+          <input type="submit" value="Send Message" class="btn" />          
         </div>
       </form>
     </section>

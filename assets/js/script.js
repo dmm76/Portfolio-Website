@@ -98,8 +98,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const englishPath =
       directory === "/" ? "/index-us.html" : `${directory}index-us.html`;
-    const portuguesePath =
-      directory === "/" ? "/" : `${directory}index.html`;
+    const portuguesePath = directory === "/" ? "/" : `${directory}index.html`;
 
     languageToggle.checked = isEnglishPage;
 
@@ -119,9 +118,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const themeToggle = document.getElementById("theme-toggle");
   if (themeToggle) {
-    themeToggle.checked = document.documentElement.classList.contains(
-      "light-theme",
-    );
+    themeToggle.checked =
+      document.documentElement.classList.contains("light-theme");
 
     themeToggle.addEventListener("change", function () {
       const root = document.documentElement;
@@ -131,6 +129,41 @@ document.addEventListener("DOMContentLoaded", () => {
       } else {
         root.classList.remove("light-theme");
         localStorage.setItem(THEME_KEY, "dark");
+      }
+    });
+  }
+  const contactForm = document.getElementById("contact-form");
+
+  if (contactForm) {
+    contactForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
+
+      const data = {
+        nome: contactForm.name.value,
+        email: contactForm.email.value,
+        telefone: contactForm.phone.value,
+        assunto: contactForm.subject.value,
+        mensagem: contactForm.message.value,
+      };
+
+      try {
+        const response = await fetch("http://localhost:8080/contact", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        });
+
+        if (response.ok) {
+          alert("Mensagem enviada com sucesso!");
+          contactForm.reset();
+        } else {
+          alert("Erro ao enviar mensagem. Tente novamente.");
+        }
+      } catch (error) {
+        console.error("Erro ao enviar mensagem:", error);
+        alert("Erro de conexão com o servidor.");
       }
     });
   }
